@@ -4,6 +4,7 @@ pipeline {
     environment {
         GIT_CREDENTIALS = credentials("Jaezic")
         PROJECT_PATH = "/home/ubuntu/ARtist_BackEnd"
+        REQUIREMENTS_PATH = "/home/ubuntu/ARtist_BackEnd/python"
     }
 
     stages {
@@ -36,7 +37,7 @@ pipeline {
         }
         stage('PIP install'){
             steps {
-                dir(PROJECT_PATH+'/python'){
+                dir(REQUIREMENTS_PATH){
                     sh 'pip install -r requirements.txt'
                 }
             }

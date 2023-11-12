@@ -16,7 +16,7 @@ collection = db['MidiFile']
 
 upload_path = '/home/ubuntu/upload'
 
-@router.delete("/delete/{filename:path}")
+@router.delete("/delete/{filename}")
 async def delete_file(filename: str):
     file_path = Path(upload_path) / filename
 
@@ -41,7 +41,7 @@ async def delete_file(filename: str):
         print(ex)
         raise HTTPException(status_code=500, detail="Error deleting the file")
     
-@router.get("/download/{filename:path}")
+@router.get("/download/{filename}")
 async def download_file(filename: str):
     file_path = Path(upload_path) / filename
 

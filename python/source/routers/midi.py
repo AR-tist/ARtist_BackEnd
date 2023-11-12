@@ -61,8 +61,8 @@ async def get_midi_list():
         # 가져온 데이터를 JSON 형식으로 변환
         file_list = []
         for file in files:
-            download_url = f"/download/{file['filename']}"
-            delete_url = f"/delete/{file['filename']}"
+            download_url = f"/midi/download/{file['filename']}"
+            delete_url = f"/midi/delete/{file['filename']}"
             file_item = {
                 "timestamp": file["timestamp"],
                 "filename": file["filename"],
@@ -127,7 +127,7 @@ async def upload_midi_file(
         "timestamp": date_suffix,
         "filename": file_name,
         "title": title,
-        "downloadUrl": f"/download/{output.inserted_id}",
+        "downloadUrl": f"/midi/download/{output.inserted_id}",
     }
 
     return response

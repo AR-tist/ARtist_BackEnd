@@ -20,12 +20,11 @@ pipeline {
                 dir('python/source'){
                     script{
                         try{
-                            sh 'sudo -u ubuntu pm2 start main.py --watch --interpreter python3'
+                            def pm2Output = sh 'sudo -u ubuntu pm2 start main.py --watch --interpreter python3'
                         } catch (Exception e){
-                            echo e.toString()
-                            if(e.getMessage().contains('Script already launched')){
+                            if (pm2Output.contains('Script already launched')){
                                 echo 'Script already launched'
-                            } else {
+                            } else{
                                 throw e
                             }
                         }

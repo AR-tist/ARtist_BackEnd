@@ -25,6 +25,13 @@ pipeline {
         //         echo 'Zip File'
         //     }
         // }
+        stage('test'){
+            steps{
+                script{
+                    sh 'pwd'
+                }
+            }
+        }
         stage('Github Pull'){
             steps {
                 script {

@@ -21,7 +21,7 @@ pipeline {
                     script{
                         def pm2ListOutput = sh(script:'sudo -u ubuntu pm2 list', returnStdout: true).trim()
 
-                        if(!pm2ListOutput.contains("main")){
+                        if(!pm2ListOutput.contains("main") && !pm2ListOutput.contains("online")){
                             echo 'Starting PM2 as "main" is not found in the list.'
                             sh 'sudo -u ubuntu pm2 start main.py --watch --interpreter python3'
                         }

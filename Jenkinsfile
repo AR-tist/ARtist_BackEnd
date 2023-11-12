@@ -22,6 +22,7 @@ pipeline {
                         try{
                             sh 'sudo -u ubuntu pm2 start main.py --watch --interpreter python3'
                         } catch (Exception e){
+                            echo e.getMessage()
                             if(e.getMessage().contains('Script already launched')){
                                 echo 'Script already launched'
                             } else {

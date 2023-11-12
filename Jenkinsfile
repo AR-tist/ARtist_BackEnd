@@ -18,7 +18,7 @@ pipeline {
         stage('PM2 start'){
             steps {
                 dir('python/source'){
-                    sh 'pm2 start main.py --watch --interpreter python3'
+                    sh 'pm2 start main.py --watch --interpreter python3 --user ubuntu'
                 }
             }
         }

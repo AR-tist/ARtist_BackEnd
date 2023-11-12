@@ -1,12 +1,7 @@
 pipeline {
     agent any
 
-    environment {
-        GIT_CREDENTIALS = credentials("Jaezic")
-    }
-
     stages {
-        // TEST
         stage('Clone Git Repository') { 
             steps {
                 git branch: 'main', credentialsId: 'Jaezic', url:'https://github.com/AR-tist/ARtist_BackEnd.git'

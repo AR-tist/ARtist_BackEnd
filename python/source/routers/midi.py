@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, Path, UploadFile, File, Form
+from pathlib import Path
+from fastapi import APIRouter, HTTPException, UploadFile, File, Form
 from fastapi.encoders import jsonable_encoder
 from pymongo import MongoClient
 from fastapi.responses import FileResponse, JSONResponse
@@ -16,7 +17,7 @@ collection = db['MidiFile']
 
 upload_path = '/home/ubuntu/upload'
 
-@router.delete("/delete/{filename}")
+@router.delete("/delete/{filename:path}")
 async def delete_file(filename: str):
     file_path = Path(upload_path) / filename
 
@@ -41,7 +42,7 @@ async def delete_file(filename: str):
         print(ex)
         raise HTTPException(status_code=500, detail="Error deleting the file")
     
-@router.get("/download/{filename}")
+@router.get("/download/{filename:path}")
 async def download_file(filename: str):
     file_path = Path(upload_path) / filename
 

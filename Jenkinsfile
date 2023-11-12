@@ -19,16 +19,16 @@ pipeline {
             steps {
                 dir('python/source'){
                     script{
-                        try{
-                            def pm2Output = sh(script:'sudo -u ubuntu pm2 start main.py --watch --interpreter python3', returnStdout: true).toString().trim()
-                        } catch (Exception e){
-                            echo pm2Output
-                            if (pm2Output.contains('Script already launched')){
-                                echo 'Script already launched'
-                            } else{
-                                throw e
-                            }
+                        def pm2ListOutput = sh(script:'sudo -u ubuntu pm2 list', returnStdout: true).trim()
+
+                        if(!pm2ListOutput.contains("main")){
+                            echo 'Starting PM2 as "main" is not found in the list.'
+                            sh 'sudo -u ubuntu pm2 start main.py --watch --interpreter python3'
                         }
+                        else{
+                            echo 'PM2 process with "main" is already running.'
+                        }
+
                     }
                 }
             }

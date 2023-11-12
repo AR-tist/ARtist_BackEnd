@@ -22,7 +22,7 @@ pipeline {
                         try{
                             def pm2Output = sh(script:'sudo -u ubuntu pm2 start main.py --watch --interpreter python3', returnStdout: true).toString().trim()
                         } catch (Exception e){
-    
+                            echo pm2Output
                             if (pm2Output.contains('Script already launched')){
                                 echo 'Script already launched'
                             } else{

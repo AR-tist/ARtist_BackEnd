@@ -1,13 +1,10 @@
 pipeline {
     agent any
 
-    environment{
-    }
-
     stages {
         stage('Clone Git Repository') {
             steps {
-                git branch: 'main', credentialsId: 'Jaezic', url:'https://github.com/'
+                git branch: 'main', credentialsId: 'Jaezic', url:'https://github.com/AR-tist/ARtist_BackEnd.git'
                 echo 'Clone Git Repository'
             }
         }

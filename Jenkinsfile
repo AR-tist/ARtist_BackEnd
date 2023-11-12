@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        GIT_CREDENTIALS = credentials('Jaezic')
-        PROJECT_PATH = '/home/ubuntu/ARtist_BackEnd'
+        GIT_CREDENTIALS = credentials("Jaezic")
+        PROJECT_PATH = "/home/ubuntu/ARtist_BackEnd"
     }
 
     stages {

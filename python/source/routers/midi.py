@@ -1,7 +1,7 @@
-from fastapi import APIRouter, HTTPException, UploadFile, File, Form
+from fastapi import APIRouter, HTTPException, Path, UploadFile, File, Form
 from fastapi.encoders import jsonable_encoder
 from pymongo import MongoClient
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 import os
 import datetime
 
@@ -13,6 +13,43 @@ router = APIRouter(
 client = MongoClient('mongodb://localhost:27017/')
 db = client['artist']
 collection = db['MidiFile']
+
+upload_path = '/home/ubuntu/upload'
+
+@router.delete("/delete/{filename:path}")
+async def delete_file(filename: str):
+    file_path = Path(upload_path) / filename
+    
+    try:
+        # 데이터베이스에서 해당 파일 정보 삭제
+        result = collection.delete_one({"filename": filename})
+
+        # 삭제된 문서가 없다면 404 에러 반환
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="File not found in the database")
+
+        # 파일 존재 확인
+        if not file_path.is_file():
+            raise HTTPException(status_code=404, detail="File not found")
+
+        # 파일 삭제
+        file_path.unlink()
+        return {"message": "File deleted successfully"}
+    except HTTPException as e:
+        raise e
+    except Exception as ex:
+        print(ex)
+        raise HTTPException(status_code=500, detail="Error deleting the file")
+    
+@router.get("/download/{filename:path}")
+async def download_file(filename: str):
+    file_path = Path(upload_path) / filename
+
+    if not file_path.is_file():
+        raise HTTPException(status_code=404, detail="File not found")
+
+    return FileResponse(file_path, filename=filename)
+
 
 @router.get("/list")
 async def get_midi_list():
@@ -61,7 +98,7 @@ async def upload_midi_file(
 
     # 파일 저장 경로 설정
     date_suffix = datetime.datetime.now().timestamp()
-    file_path = os.path.join("/home/ubuntu/upload", f"{title}-{date_suffix}.mid")
+    file_path = os.path.join(upload_path, f"{title}-{date_suffix}.mid")
 
     # 파일 저장
     with open(file_path, "wb") as f:

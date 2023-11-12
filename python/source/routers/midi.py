@@ -19,7 +19,7 @@ upload_path = '/home/ubuntu/upload'
 @router.delete("/delete/{filename:path}")
 async def delete_file(filename: str):
     file_path = Path(upload_path) / filename
-    
+
     try:
         # 데이터베이스에서 해당 파일 정보 삭제
         result = collection.delete_one({"filename": filename})
@@ -98,7 +98,8 @@ async def upload_midi_file(
 
     # 파일 저장 경로 설정
     date_suffix = datetime.datetime.now().timestamp()
-    file_path = os.path.join(upload_path, f"{title}-{date_suffix}.mid")
+    file_name = f"{title}-{date_suffix}.mid"
+    file_path = os.path.join(upload_path, file_name)
 
     # 파일 저장
     with open(file_path, "wb") as f:
@@ -106,7 +107,7 @@ async def upload_midi_file(
 
     # MongoDB에 데이터 저장
     new_midi_file = {
-        "filename": file_path,
+        "filename": file_name,
         "title": title,
         "imgurl": "",
         "subtitle": subtitle,
@@ -123,7 +124,7 @@ async def upload_midi_file(
     # 응답 생성
     response = {
         "timestamp": date_suffix,
-        "filename": file_path,
+        "filename": file_name,
         "title": title,
         "downloadUrl": f"/download/{output.inserted_id}",
     }

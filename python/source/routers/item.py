@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from models.item import Item
-import boto3
 import uuid
 
 router = APIRouter(

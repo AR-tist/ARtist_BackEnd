@@ -29,7 +29,7 @@ pipeline {
                     // Move to the repository directory
                     dir(PROJECT_PATH) {
                         // Execute git pull command with credentials
-                        sh "git pull --credentials=${GIT_CREDENTIALS}"
+                        sh "git pull"
                     }
                 }
             }

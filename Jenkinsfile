@@ -11,7 +11,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 dir('python'){
-                    sh 'pip install -r requirements.txt'
+                    sh 'sudo -u ubuntu pip install -r requirements.txt'
                 }
             }
         }

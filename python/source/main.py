@@ -1,13 +1,14 @@
 ### IMPORTS ###
 from fastapi import FastAPI
 import uvicorn
-from routers import item, root
+from routers import item, root, upload
 
 
 ### FastAPI ###
 app = FastAPI()
 app.include_router(item.router)
 app.include_router(root.router)
+app.include_router(upload.router)
 
 
 ### MAIN ###

@@ -1,29 +1,43 @@
 pipeline {
     agent any
 
+    environment {
+        GIT_CREDENTIALS = credentials('Jaezic')
+        PROJECT_PATH = '/home/ubuntu/ARtist_BackEnd'
+    }
+
     stages {
-        stage('Clone Git Repository') {
+        // stage('Clone Git Repository') {
+        //     steps {
+        //         git branch: 'main', credentialsId: 'Jaezic', url:'https://github.com/AR-tist/ARtist_BackEnd.git'
+        //         echo 'Clone Git Repository'
+        //     }
+        // }
+        
+        // stage('Source Zip File') {
+        //     steps {
+        //         dir('python/source'){
+        //             sh "zip -r source.zip ."
+        //             sh "mv source.zip ../../"
+        //         }
+        //         echo 'Zip File'
+        //     }
+        // }
+        stage('Github Pull'){
             steps {
-                git branch: 'main', credentialsId: 'Jaezic', url:'https://github.com/AR-tist/ARtist_BackEnd.git'
-                echo 'Clone Git Repository'
-            }
-        }
-        stage('Source Zip File') {
-            steps {
-                dir('python/source'){
-                    sh "zip -r source.zip ."
-                    sh "mv source.zip ../../"
+                script {
+                    // Move to the repository directory
+                    dir(PROJECT_PATH) {
+                        // Execute git pull command with credentials
+                        sh "git pull --credentials=${GIT_CREDENTIALS}"
+                    }
                 }
-                echo 'Zip File'
             }
         }
         stage('PIP install'){
             steps {
-                dir('python'){
-                    sh 'pip3 install --platform manylinux2014_x86_64 --target ./python --implementation cp --python-version 3.10 --only-binary=:all: --upgrade -r requirements.txt'
-                    // sh "pip3 install -r requirements.txt -t ./python"
-                    sh "zip -r python.zip ./python"
-                    sh "mv python.zip ../"
+                dir(PROJECT_PATH+'/python'){
+                    sh 'pip install -r requirements.txt'
                 }
             }
         }

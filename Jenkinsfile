@@ -18,13 +18,15 @@ pipeline {
         stage('PM2 start'){
             steps {
                 dir('python/source'){
-                    try{
-                        sh 'sudo -u ubuntu pm2 start main.py --watch --interpreter python3'
-                    } catch (Exception e){
-                        if(e.getMessage().contains('Script already launched')){
-                            echo 'Script already launched'
-                        } else {
-                            throw e
+                    script{
+                        try{
+                            sh 'sudo -u ubuntu pm2 start main.py --watch --interpreter python3'
+                        } catch (Exception e){
+                            if(e.getMessage().contains('Script already launched')){
+                                echo 'Script already launched'
+                            } else {
+                                throw e
+                            }
                         }
                     }
                 }

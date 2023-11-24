@@ -3,6 +3,7 @@ import uuid
 import logging
 import json
 from .multiplay.connect import connect
+from .multiplay.disconnect import disconnect
 import time
 
 router = APIRouter(
@@ -11,32 +12,32 @@ router = APIRouter(
 )
 
 connected_clients = {}
+rooms = {}
+
 
 async def message_handler(event):
     if event['type'] == 'connect':
-        connect(event, connected_clients)
-    if event['type'] == 'disconnect':
-        pass
-    if event['type'] == 'message':
-        for connection_id in connected_clients:
-            if connection_id != event['connection_id']:
-                await connected_clients[connection_id].send_text(event['message'])
+        await connect(event, connected_clients, rooms)
+    elif event['type'] == 'disconnect':
+        await disconnect(event, connected_clients, rooms)
 
 
 @router.websocket("/")
-async def websocket_endpoint(websocket: WebSocket):
+async def websocket_endpoint(websocket: WebSocket, filename: str = '', host: bool = False, room_id: str = '', nickname: str = '', user_id: str = '', device: str = ''):
+    connectionID = str(uuid.uuid4())
+    event = {'type': 'connect', 'connectionID': connectionID, 'filename': filename, 'host': host, 'room_id': room_id, 'nickname': nickname, 'user_id': user_id, 'device': device}
     await websocket.accept()
-    connection_id = str(uuid.uuid4())
-    connected_clients[connection_id] = websocket
+    connected_clients[connectionID] = websocket
     try:
-        await message_handler({'type': 'connect', 'connection_id': connection_id})
+        await message_handler(event)
         while True:
             message = await websocket.receive_text()
-            event = json.loads(message)
-            event['connection_id'] = connection_id
+            event.update(json.loads(message))
             await message_handler(event)
     except Exception as e:
-        logging.error(f'{connection_id} - {e}')
+        if e.__class__.__name__ != 'WebSocketDisconnect':
+            logging.error(f'{connectionID} - {e}')
     finally:
-        message_handler({'type': 'disconnect', 'connection_id': connection_id})
-        del connected_clients[connection_id]
+        event['type'] = 'disconnect'
+        await message_handler(event)
+        del connected_clients[connectionID]

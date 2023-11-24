@@ -74,8 +74,8 @@ async def get_midi_list():
                 "like": file["like"],
                 "views": file["views"],
                 "music_length": file["music_length"],
-                "downloadUrl": download_url,
-                "deleteUrl": delete_url,
+                "download_url": download_url,
+                "delete_url": delete_url,
             }
             file_list.append(file_item)
 

@@ -29,7 +29,7 @@ async def websocket_endpoint(websocket: WebSocket):
     connection_id = str(uuid.uuid4())
     connected_clients[connection_id] = websocket
     try:
-        message_handler({'type': 'connect', 'connection_id': connection_id})
+        await message_handler({'type': 'connect', 'connection_id': connection_id})
         while True:
             message = await websocket.receive_text()
             event = json.loads(message)

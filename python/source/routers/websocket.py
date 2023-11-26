@@ -28,7 +28,7 @@ async def message_handler(event):
     elif event['type'] == 'host_play':
         await hostPlay(event, connected_clients, rooms)
     elif event['type'] == 'imready':
-        await imready(event, rooms)
+        await imready(event, connected_clients, rooms)
         
 
 

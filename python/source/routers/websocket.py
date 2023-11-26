@@ -9,6 +9,8 @@ from .multiplay.connect import connect
 from .multiplay.disconnect import disconnect
 import time
 
+import traceback
+
 router = APIRouter(
 	prefix="/ws",
     tags=["websocket"]
@@ -52,6 +54,7 @@ async def websocket_endpoint(websocket: WebSocket, filename: str = '', room_id: 
         if e.__class__.__name__ != 'WebSocketDisconnect':
             print(e)
             logging.error(f'{connectionID} - {e}')
+            print(traceback.format_exc())
     finally:
         print(f'{connectionID} - {nickname} disconnected')
         event['type'] = 'disconnect'

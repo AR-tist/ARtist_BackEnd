@@ -2,7 +2,11 @@ import logging
 
 
 async def disconnect(event, connected_clients, rooms):
+    if event['room_id'] not in rooms:
+        return
+    
     room = rooms[event['room_id']]
+    
     del room.guests[event['connectionID']]
 
     logging.info(f'{event["connectionID"]} - {event["nickname"]} left room {event["room_id"]}')

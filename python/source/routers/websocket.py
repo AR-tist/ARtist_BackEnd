@@ -49,12 +49,8 @@ async def websocket_endpoint(websocket: WebSocket, filename: str = '', room_id: 
         while True:
             message = await websocket.receive_text()
             print(f'{connectionID} - {nickname} - {message}')
-            message_dict = json.loads(message)
-            print(message_dict)
+            message_dict = json.loads(eval(message))
             for key in message_dict:
-                print(key)
-                print(message_dict[key])
-                print(event[key])
                 event[key] = message_dict[key]
             await message_handler(event)
     except Exception as e:

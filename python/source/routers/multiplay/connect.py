@@ -52,7 +52,7 @@ async def connect(event, connected_clients, rooms):
     for guest in room.guests:
         if guest != event['connectionID']:
             await connected_clients[guest].send_text(
-                str({'type': 'join', 'data': room.guests[client.connectionID].to_dict()}).replace("'", '"')
+                str({'type': 'join', 'data': room.to_dict()}).replace("'", '"')
             )
 
 

@@ -1,4 +1,4 @@
-async def imready(event, rooms):
+async def imready(event, connected_clients, rooms):
     room = rooms[event['room_id']]
     
     room.guests[event['connectionID']].load_complete = 1
@@ -14,7 +14,7 @@ async def imready(event, rooms):
     
     if all_loaded:
         for guest in room.guests:
-            await guest.send_text(
+            await connected_clients[guest].send_text(
                 str({'type': 'start', 'data': {}}).replace("'", '"')
             )
         print(f'{event["connectionID"]} - {event["room_id"]} loading Complition')

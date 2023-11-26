@@ -4,7 +4,7 @@ async def hostPlay(event, connected_clients, rooms):
         await connected_clients[guest].send_text(
             str({'type': 'host_play', 'data': {}}).replace("'", '"')
         )
-    print(f'{event["connectionID"]} - {event["nickname"]} started playing')
+    print(f'{event["connectionID"]} - {event["nickname"]} command host Start in room {event["room_id"]}')
     
     while True:
         all_loaded = True
@@ -16,6 +16,8 @@ async def hostPlay(event, connected_clients, rooms):
         if all_loaded:
             break
         
+    print(f'{event["connectionID"]} - {event["room_id"]} loading Complition')
+    
     for guest in room.guests:
         await connected_clients[guest].send_text(
             str({'type': 'start', 'data': {}}).replace("'", '"')

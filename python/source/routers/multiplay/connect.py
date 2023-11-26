@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(
@@ -33,6 +34,7 @@ async def connect(event, connected_clients, rooms):
         await connected_clients[event['connectionID']].send_text(
             str({'type': 'connect','data' :room.to_dict()})
         )
+        logging.info(f'{event["connectionID"]} - {event["nickname"]} created room {event["room_id"]}')
     else:
         room = rooms[event['room_id']]
         client = Client(connectionID=event['connectionID'],
@@ -45,6 +47,7 @@ async def connect(event, connected_clients, rooms):
         await connected_clients[event['connectionID']].send_text(
             str({'type': 'connect','data' :room.to_dict()})
         )
+        logging.info(f'{event["connectionID"]} - {event["nickname"]} joined room {event["room_id"]}')
         
 
 

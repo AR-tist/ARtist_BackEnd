@@ -11,7 +11,7 @@ async def disconnect(event, connected_clients, rooms):
 
     for guest in room.guests:
         await connected_clients[guest].send_text(
-            str({'type': 'disconnect', 'data': {'connectionID': event['connectionID']}}).replace("'", '"')
+            str({'type': 'disconnect', 'data': room.to_dict()}).replace("'", '"')
         )
 
     print(f'{event["connectionID"]} - {event["nickname"]} left room {event["room_id"]}')

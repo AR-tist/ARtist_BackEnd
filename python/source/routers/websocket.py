@@ -48,13 +48,14 @@ async def websocket_endpoint(websocket: WebSocket, filename: str = '', room_id: 
         await message_handler(event)
         while True:
             message = await websocket.receive_text()
+            print(f'{connectionID} - {nickname} - {message}')
             event.update(json.loads(message))
             await message_handler(event)
     except Exception as e:
         if e.__class__.__name__ != 'WebSocketDisconnect':
             print(e)
             logging.error(f'{connectionID} - {e}')
-            print(traceback.format_exc())
+            print(traceback.format_exc())   
     finally:
         print(f'{connectionID} - {nickname} disconnected')
         event['type'] = 'disconnect'

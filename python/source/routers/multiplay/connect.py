@@ -12,7 +12,7 @@ from db.get_midi import get_midi
 import uuid
 
 async def connect(event, connected_clients, rooms):
-    if 'room_id' not in event:
+    if event['room_id'] == '':
         music_document = get_midi(event['filename'])
         client = Client(connectionID=event['connectionID'],
                         nickname=event['nickname'],

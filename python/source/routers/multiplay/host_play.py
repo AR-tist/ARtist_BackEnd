@@ -21,7 +21,7 @@ async def hostPlay(event, connected_clients, rooms):
         
         time.sleep(0.1)
         timeout_cnt += 1
-        if timeout_cnt > 30:
+        if timeout_cnt > 60:
             print(f'{event["connectionID"]} - {event["nickname"]} command host Start in room {event["room_id"]} timeout')
             return
         

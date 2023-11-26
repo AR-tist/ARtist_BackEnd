@@ -49,7 +49,9 @@ async def websocket_endpoint(websocket: WebSocket, filename: str = '', room_id: 
         while True:
             message = await websocket.receive_text()
             print(f'{connectionID} - {nickname} - {message}')
-            event.update(json.loads(message))
+            message_dict = json.loads(message)
+            for key in message_dict:
+                event[key] = message_dict[key]
             await message_handler(event)
     except Exception as e:
         if e.__class__.__name__ != 'WebSocketDisconnect':
@@ -60,5 +62,5 @@ async def websocket_endpoint(websocket: WebSocket, filename: str = '', room_id: 
         print(f'{connectionID} - {nickname} disconnected')
         event['type'] = 'disconnect'
         await message_handler(event)
-        connected_clients[connectionID].close()
+        await connected_clients[connectionID].close()
         del connected_clients[connectionID]

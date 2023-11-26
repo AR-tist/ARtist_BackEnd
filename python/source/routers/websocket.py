@@ -43,4 +43,5 @@ async def websocket_endpoint(websocket: WebSocket, filename: str = '', room_id: 
         print(f'{connectionID} - {nickname} disconnected')
         event['type'] = 'disconnect'
         await message_handler(event)
+        connected_clients[connectionID].close()
         del connected_clients[connectionID]

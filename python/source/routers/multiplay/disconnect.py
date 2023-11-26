@@ -9,6 +9,11 @@ async def disconnect(event, connected_clients, rooms):
     
     del room.guests[event['connectionID']]
 
+    for guest in room.guests:
+        await connected_clients[guest].send_text(
+            str({'type': 'disconnect', 'data': {'connectionID': event['connectionID']}}).replace("'", '"')
+        )
+
     print(f'{event["connectionID"]} - {event["nickname"]} left room {event["room_id"]}')
     if len(room.guests) == 0:
         del rooms[event['room_id']]

@@ -12,13 +12,13 @@ from db.get_midi import get_midi
 import uuid
 
 async def connect(event, connected_clients, rooms):
-    if (event['host']):
+    if 'room_id' not in event:
         music_document = get_midi(event['filename'])
         client = Client(connectionID=event['connectionID'],
                         nickname=event['nickname'],
                         user_id=event['user_id'],
                         device=event['device'],
-                        host=True,
+                        host=1,
                         )
         room = Room(room_id=str(uuid.uuid4()),
                     host_nickname = client.nickname,
@@ -41,7 +41,7 @@ async def connect(event, connected_clients, rooms):
                         nickname=event['nickname'],
                         user_id=event['user_id'],
                         device=event['device'],
-                        host=False,
+                        host=0,
                         )
         room.guests[client.connectionID] = client
         await connected_clients[event['connectionID']].send_text(

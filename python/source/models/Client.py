@@ -7,7 +7,7 @@ class Client:
                  nickname : str,
                  device : int,
                  connectionID : str,
-                 host : bool = False,
+                 host : int = 0,
                  ):
         self.user_id = user_id
         self.nickname = nickname

@@ -36,6 +36,7 @@ async def websocket_endpoint(websocket: WebSocket, filename: str = '', host: boo
             await message_handler(event)
     except Exception as e:
         if e.__class__.__name__ != 'WebSocketDisconnect':
+            print(e)
             logging.error(f'{connectionID} - {e}')
     finally:
         event['type'] = 'disconnect'

@@ -9,10 +9,10 @@ async def disconnect(event, connected_clients, rooms):
     
     del room.guests[event['connectionID']]
 
-    logging.info(f'{event["connectionID"]} - {event["nickname"]} left room {event["room_id"]}')
+    print(f'{event["connectionID"]} - {event["nickname"]} left room {event["room_id"]}')
     if len(room.guests) == 0:
         del rooms[event['room_id']]
-        logging.info(f'Room {event["room_id"]} deleted')
+        print(f'Room {event["room_id"]} deleted')
 
     if event['host']:
         tmp_guests = room.guests.copy()

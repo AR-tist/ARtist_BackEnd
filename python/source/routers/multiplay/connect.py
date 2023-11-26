@@ -34,7 +34,7 @@ async def connect(event, connected_clients, rooms):
         await connected_clients[event['connectionID']].send_text(
             str({'type': 'connect','data' :room.to_dict()}).replace("'", '"')
         )
-        logging.info(f'{event["connectionID"]} - {event["nickname"]} created room {event["room_id"]}')
+        print(f'{event["connectionID"]} - {event["nickname"]} created room {event["room_id"]}')
     else:
         room = rooms[event['room_id']]
         client = Client(connectionID=event['connectionID'],
@@ -47,12 +47,12 @@ async def connect(event, connected_clients, rooms):
         await connected_clients[event['connectionID']].send_text(
             str({'type': 'connect','data' :room.to_dict()}).replace("'", '"')
         )
-        logging.info(f'{event["connectionID"]} - {event["nickname"]} joined room {event["room_id"]}')
+        print(f'{event["connectionID"]} - {event["nickname"]} joined room {event["room_id"]}')
     
-    for guest in room.guests:
-        if guest != event['connectionID']:
-            await connected_clients[guest].send_text(
-                str({'type': 'join', 'data': room.to_dict()}).replace("'", '"')
-            )
+        for guest in room.guests:
+            if guest != event['connectionID']:
+                await connected_clients[guest].send_text(
+                    str({'type': 'join', 'data': room.to_dict()}).replace("'", '"')
+                )
 
 

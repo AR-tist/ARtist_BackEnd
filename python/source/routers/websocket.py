@@ -25,7 +25,8 @@ async def message_handler(event):
 @router.websocket("/")
 async def websocket_endpoint(websocket: WebSocket, filename: str = '', room_id: str = '', nickname: str = '', user_id: str = '', device: str = ''):
     connectionID = str(uuid.uuid4())
-    event = {'type': 'connect', 'connectionID': connectionID, 'filename': filename, 'room_id': room_id, 'nickname': nickname, 'user_id': user_id, 'device': device}
+    event = {'type': 'connect', 'connectionID': connectionID, 'host': room_id == '', 'filename': filename, 'room_id': room_id, 'nickname': nickname, 'user_id': user_id, 'device': device}
+    
     await websocket.accept()
     connected_clients[connectionID] = websocket
     try:

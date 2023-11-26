@@ -48,6 +48,11 @@ async def connect(event, connected_clients, rooms):
             str({'type': 'connect','data' :room.to_dict()}).replace("'", '"')
         )
         logging.info(f'{event["connectionID"]} - {event["nickname"]} joined room {event["room_id"]}')
-        
+    
+    for guest in room.guests:
+        if guest != event['connectionID']:
+            await connected_clients[guest].send_text(
+                str({'type': 'join', 'data': room.guests[client.connectionID].to_dict()}).replace("'", '"')
+            )
 
 

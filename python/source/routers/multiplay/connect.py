@@ -22,7 +22,7 @@ async def connect(event, connected_clients, rooms):
                         )
         room = Room(room_id=str(uuid.uuid4()),
                     host_nickname = client.nickname,
-                    host_id=client.connectionID,
+                    host_id=event['user_id'],
                     music_instance=Music(music_document),
                     guests={
                         client.connectionID: client

@@ -8,12 +8,14 @@ class Client:
                  device : int,
                  connectionID : str,
                  host : int = 0,
+                 load_complete : int = 0,
                  ):
         self.user_id = user_id
         self.nickname = nickname
         self.device = device
         self.connectionID = connectionID
         self.host = host
+        self.load_complete = 0
         
     def to_dict(self):
         return {
@@ -22,4 +24,5 @@ class Client:
             'device': self.device,
             'connectionID': self.connectionID,
             'host': self.host,
+            'load_complete': self.load_complete,
         }

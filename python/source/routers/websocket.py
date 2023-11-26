@@ -2,6 +2,9 @@ from fastapi import APIRouter, WebSocket
 import uuid
 import logging
 import json
+
+from .multiplay.host_play import hostPlay
+from .multiplay.start import start
 from .multiplay.connect import connect
 from .multiplay.disconnect import disconnect
 import time
@@ -20,6 +23,12 @@ async def message_handler(event):
         await connect(event, connected_clients, rooms)
     elif event['type'] == 'disconnect':
         await disconnect(event, connected_clients, rooms)
+    elif event['type'] == 'host_play':
+        await hostPlay(event, connected_clients, rooms)
+    elif event['type'] == 'start':
+        await start(event, rooms)
+        
+
 
 
 @router.websocket("/")

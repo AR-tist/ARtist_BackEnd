@@ -19,6 +19,7 @@ async def connect(event, connected_clients, rooms):
                         user_id=event['user_id'],
                         device=event['device'],
                         host=1,
+                        load_complete=0,
                         )
         room = Room(room_id=str(uuid.uuid4()),
                     host_nickname = client.nickname,
@@ -42,6 +43,7 @@ async def connect(event, connected_clients, rooms):
                         user_id=event['user_id'],
                         device=event['device'],
                         host=0,
+                        load_complete=0,
                         )
         room.guests[client.connectionID] = client
         await connected_clients[event['connectionID']].send_text(

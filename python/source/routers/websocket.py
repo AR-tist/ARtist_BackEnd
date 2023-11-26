@@ -27,6 +27,10 @@ async def websocket_endpoint(websocket: WebSocket, filename: str = '', room_id: 
     connectionID = str(uuid.uuid4())
     event = {'type': 'connect', 'connectionID': connectionID, 'host': room_id == '', 'filename': filename, 'room_id': room_id, 'nickname': nickname, 'user_id': user_id, 'device': device}
     
+    if room_id != '' and room_id not in rooms:
+        await websocket.close()
+        return
+    
     await websocket.accept()
     connected_clients[connectionID] = websocket
     try:

@@ -22,6 +22,9 @@ async def disconnect(event, connected_clients, rooms):
     if event['host']:
         tmp_guests = room.guests.copy()
         for guest in tmp_guests:
+            await connected_clients[guest].send_text(
+                str({'type': 'host_out', 'data': room.to_dict()}).replace("'", '"')
+            )
             await connected_clients[guest].close()
 
         

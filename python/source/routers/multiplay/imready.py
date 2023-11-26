@@ -17,4 +17,4 @@ async def imready(event, connected_clients, rooms):
             await connected_clients[guest].send_text(
                 str({'type': 'start', 'data': {}}).replace("'", '"')
             )
-        print(f'{event["connectionID"]} - {event["room_id"]} loading Complition')
+        print(f'{event["connectionID"]} - {event["room_id"]} loading Complition and Start')

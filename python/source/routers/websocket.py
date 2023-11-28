@@ -7,6 +7,7 @@ from .multiplay.host_play import hostPlay
 from .multiplay.imready import imready
 from .multiplay.connect import connect
 from .multiplay.disconnect import disconnect
+from .multiplay.keyboard import keyDown, keyUp
 import time
 
 import traceback
@@ -29,6 +30,10 @@ async def message_handler(event):
         await hostPlay(event, connected_clients, rooms)
     elif event['type'] == 'imready':
         await imready(event, connected_clients, rooms)
+    elif event['type'] == 'keyDown':
+        await keyDown(event, connected_clients, rooms)
+    elif event['type'] == 'keyUp':
+        await keyUp(event, connected_clients, rooms)
         
 
 

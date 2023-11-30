@@ -1,3 +1,6 @@
+import time
+
+
 async def imready(event, connected_clients, rooms):
     room = rooms[event['room_id']]
     
@@ -13,6 +16,7 @@ async def imready(event, connected_clients, rooms):
             continue
     
     if all_loaded:
+        time.sleep(5)
         for guest in room.guests:
             await connected_clients[guest].send_text(
                 str({'type': 'start', 'data': {}}).replace("'", '"')

@@ -19,6 +19,6 @@ async def imready(event, connected_clients, rooms):
         now = int(datetime.now().timestamp() * 1000) # milliseconds since epoch
         for guest in room.guests:
             await connected_clients[guest].send_text(
-                str({'type': 'start', 'data': {now}}).replace("'", '"')
+                str({'type': 'start', 'data': now}).replace("'", '"')
             )
         print(f'{event["connectionID"]} - {event["room_id"]} loading Complition and Start')

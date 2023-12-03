@@ -1,3 +1,6 @@
+import time
+from datetime import datetime
+
 async def imready(event, connected_clients, rooms):
     room = rooms[event['room_id']]
     
@@ -13,8 +16,9 @@ async def imready(event, connected_clients, rooms):
             continue
     
     if all_loaded:
+        now = int(datetime.now().timestamp() * 1000) # milliseconds since epoch
         for guest in room.guests:
             await connected_clients[guest].send_text(
-                str({'type': 'start', 'data': {}}).replace("'", '"')
+                str({'type': 'start', 'data': now}).replace("'", '"')
             )
         print(f'{event["connectionID"]} - {event["room_id"]} loading Complition and Start')

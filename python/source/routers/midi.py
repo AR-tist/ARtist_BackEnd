@@ -11,7 +11,7 @@ router = APIRouter(
     tags=["midi"]
 )
 
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient('mongodb://artist:1234@13.124.50.132:8484/')
 db = client['artist']
 collection = db['MidiFile']
 

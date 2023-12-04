@@ -4,7 +4,7 @@ async def keyDown(event, connected_clients, rooms):
     for guest in rooms[event['room_id']].guests:
         if guest != event['connectionID']:
             await connected_clients[guest].send_text(
-                str({'type': 'keyDown', 'data': event['data']}).replace("'", '"')
+                str({'type': 'keyDown', 'data': event['data'] + event['connectionID']}).replace("'", '"')
             )
 
 async def keyUp(event, connected_clients, rooms):
@@ -13,5 +13,5 @@ async def keyUp(event, connected_clients, rooms):
     for guest in rooms[event['room_id']].guests:
         if guest != event['connectionID']:
             await connected_clients[guest].send_text(
-                str({'type': 'keyUp', 'data': event['data']}).replace("'", '"')
+                str({'type': 'keyUp', 'data': event['data']+ event['connectionID']}).replace("'", '"')
             )

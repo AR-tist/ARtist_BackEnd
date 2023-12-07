@@ -26,7 +26,7 @@ pipeline {
                             sh 'sudo -u ubuntu pm2 start main.py --watch --interpreter python3'
                         }
                         else{
-                            sh 'sudo -u ubuntu pm2 restart main'
+                            // sh 'sudo -u ubuntu pm2 restart main'
                             echo 'PM2 process with "main" is already running.'
                         }
 

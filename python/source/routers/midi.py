@@ -51,9 +51,53 @@ async def download_file(filename: str):
 
     return FileResponse(file_path, filename=filename)
 
+@router.post("/like/{filename:path}/{user_id}")
+async def post_like_file(filename: str, user_id: str):
+    try:
+        # is_like 가 true 이면 이미 좋아요를 누른 상태이면 -1 하고 데이터 삭제
+        likeTable = db['LikeTable']
+        like = likeTable.find_one({"user_id": user_id, "filename": filename})
 
-@router.get("/list")
-async def get_midi_list():
+        if like is not None:
+            result = collection.update_one({"filename": filename}, {"$inc": {"like": -1}})
+            if result.modified_count == 0:
+                raise HTTPException(status_code=404, detail="File not found in the database")
+            likeTable.delete_one({"user_id": user_id, "filename": filename})
+            return JSONResponse(content={"message": "UnLike successfully"})
+        else:
+            result = collection.update_one({"filename": filename}, {"$inc": {"like": 1}})
+            if result.modified_count == 0:
+                raise HTTPException(status_code=404, detail="File not found in the database")
+
+            new_like = {
+                "user_id": user_id,
+                "filename": filename,
+            }
+            output = likeTable.insert_one(new_like)
+            print(output.inserted_id)
+
+            # JSON 응답 반환
+            return JSONResponse(content={"message": "Like successfully"})
+    except Exception as e:
+        # 에러 발생 시 500 에러 응답
+        raise HTTPException(status_code=500, detail="Error like the file")
+
+@router.get("/like/{filename:path}/{user_id}")
+async def get_like_file(filename: str, user_id: str):
+    try:
+        # LikeTable에 user_id 와 filename이 동시에 있으면 is_like 가 true
+        likeTable = db['LikeTable']
+        like = likeTable.find_one({"user_id": user_id, "filename": filename})
+        if like is not None:
+            return JSONResponse(content={"is_like": True})
+        else:
+            return JSONResponse(content={"is_like": False})
+    except Exception as e:
+        # 에러 발생 시 500 에러 응답
+        raise HTTPException(status_code=500, detail="Error like the file")
+
+@router.get("/list/{user_id}")
+async def get_midi_list(user_id : str):
     try:
         # MongoDB에서 데이터 가져오기
         files = collection.find({}, projection={"_id": False, "filename": True, "timestamp": True, "title": True, "imgurl": True, "subtitle": True, "rank": True, "poster": True, "like": True, "views": True, "music_length": True})

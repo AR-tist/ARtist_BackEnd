@@ -5,6 +5,9 @@ from pymongo import MongoClient
 async def hostPlay(event, connected_clients, rooms):
     room = rooms[event['room_id']]
     for guest in room.guests:
+        room.guests[guest].load_complete = 0
+    
+    for guest in room.guests:
         await connected_clients[guest].send_text(
             str({'type': 'areYouReady', 'data': {}}).replace("'", '"')
         )

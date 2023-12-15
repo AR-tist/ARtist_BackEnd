@@ -63,7 +63,7 @@ async def post_like_file(filename: str, user_id: str):
             if result.modified_count == 0:
                 raise HTTPException(status_code=404, detail="File not found in the database")
             likeTable.delete_one({"user_id": user_id, "filename": filename})
-            return JSONResponse(content={"message": "UnLike successfully"})
+            return JSONResponse(content={"is_like": False,"message": "UnLike successfully"})
         else:
             result = collection.update_one({"filename": filename}, {"$inc": {"like": 1}})
             if result.modified_count == 0:
@@ -74,10 +74,9 @@ async def post_like_file(filename: str, user_id: str):
                 "filename": filename,
             }
             output = likeTable.insert_one(new_like)
-            print(output.inserted_id)
 
             # JSON 응답 반환
-            return JSONResponse(content={"message": "Like successfully"})
+            return JSONResponse(content={"is_like": True,"message": "Like successfully"})
     except Exception as e:
         # 에러 발생 시 500 에러 응답
         raise HTTPException(status_code=500, detail="Error like the file")

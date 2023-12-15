@@ -96,8 +96,8 @@ async def get_like_file(filename: str, user_id: str):
         # 에러 발생 시 500 에러 응답
         raise HTTPException(status_code=500, detail="Error like the file")
 
-@router.get("/list/{user_id}")
-async def get_midi_list(user_id : str):
+@router.get("/list")
+async def get_midi_list():
     try:
         # MongoDB에서 데이터 가져오기
         files = collection.find({}, projection={"_id": False, "filename": True, "timestamp": True, "title": True, "imgurl": True, "subtitle": True, "rank": True, "poster": True, "like": True, "views": True, "music_length": True})

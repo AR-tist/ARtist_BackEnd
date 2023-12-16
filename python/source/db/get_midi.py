@@ -11,7 +11,7 @@ def get_midi( filename ):
 
     download_url = f"/midi/download/{document['filename']}"
     delete_url = f"/midi/delete/{document['filename']}"
-    imgurl = f"/midi/img/{document['imgurl']}"
+    imgurl = f"/midi/img/{document['imgname']}"
     document['download_url'] = download_url
     document['delete_url'] = delete_url
     document['imgurl'] = imgurl

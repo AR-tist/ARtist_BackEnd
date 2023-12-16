@@ -12,7 +12,6 @@ class Music:
         self.poster = data["poster"]
         self.like = data["like"]
         self.views = data["views"]
-        self.imgurl = data["imgurl"]
         self.music_length = data["music_length"]
         self.download_url = data["download_url"]
         self.delete_url = data["delete_url"]

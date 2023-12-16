@@ -56,6 +56,7 @@ async def download_file(filename: str):
 @router.get("/download/img/{filename:path}")
 async def download_img(filename: str):
     file_path = Path(upload_path) / filename
+    print(file_path)
 
     if not file_path.is_file():
         raise HTTPException(status_code=404, detail="File not found")

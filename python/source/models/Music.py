@@ -2,7 +2,6 @@ class Music:
     def __init__(self, data):
         self.download_url = f"/midi/download/{data['filename']}"
         self.delete_url = f"/midi/delete/{data['filename']}"
-        self.imgurl = f"/midi/download/{data['imgurl']}"
         self.timestamp = data["timestamp"]
         self.filename = data["filename"]
         self.title = data["title"]

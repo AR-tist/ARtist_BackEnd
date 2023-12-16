@@ -117,7 +117,10 @@ async def get_midi_list():
         for file in files:
             download_url = f"/midi/download/{file['filename']}"
             delete_url = f"/midi/delete/{file['filename']}"
-            img_url = f"/midi/download/img/{file['imgurl']}"
+            if file["imgurl"] == "":
+                img_url = ""
+            else:
+                img_url = f"/midi/download/img/{file['imgurl']}"
             file_item = {
                 "timestamp": file["timestamp"],
                 "filename": file["filename"],
@@ -179,7 +182,7 @@ async def upload_midi_file(
     
     # MongoDB에 데이터 저장
     new_midi_file = {
-        "filename": img_name,
+        "filename": file_name,
         "title": title,
         "imgurl": img_name,
         "subtitle": subtitle,

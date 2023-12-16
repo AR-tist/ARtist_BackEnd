@@ -6,7 +6,7 @@ from fastapi.responses import FileResponse, JSONResponse
 import os
 import datetime
 import hashlib
-
+from PIL import Image
 
 router = APIRouter(
     prefix="/midi",
@@ -165,9 +165,11 @@ async def upload_midi_file(
         # 이미지 저장
         img_name = f"{title}-{date_suffix}.jpg"
         img_path = os.path.join(upload_path, img_name)
-        with open(img_path, "wb") as f:
-            f.write(img.file.read())
-
+        
+        # 이미지 리사이징, 비율 유지
+        img = Image.open(img.file)
+        img = img.resize((120,120))
+        img.save(img_path)
 
     # sha-256 password
     hash_password = hashlib.sha256(password.encode()).hexdigest()

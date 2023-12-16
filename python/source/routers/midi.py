@@ -163,8 +163,9 @@ async def upload_midi_file(
     if img is None:
         img_name = ""
     else:
+        extension = img.filename.split(".")[-1]
         # 이미지 저장
-        img_name = f"{title}-{date_suffix}.jpg"
+        img_name = f"{title}-{date_suffix}.{extension}"
         img_path = os.path.join(upload_path, img_name)
         
         # 이미지 리사이징, 비율 유지

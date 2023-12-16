@@ -117,11 +117,12 @@ async def get_midi_list():
         for file in files:
             download_url = f"/midi/download/{file['filename']}"
             delete_url = f"/midi/delete/{file['filename']}"
+            img_url = f"/midi/download/img/{file['imgurl']}"
             file_item = {
                 "timestamp": file["timestamp"],
                 "filename": file["filename"],
                 "title": file["title"],
-                "imgurl": file["imgurl"],
+                "imgurl": img_url,
                 "subtitle": file["subtitle"],
                 "rank": file["rank"],
                 "poster": file["poster"],

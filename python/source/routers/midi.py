@@ -53,6 +53,15 @@ async def download_file(filename: str):
 
     return FileResponse(file_path, filename=filename)
 
+@router.get("/download/img/{filename:path}")
+async def download_img(filename: str):
+    file_path = Path(upload_path) / filename
+
+    if not file_path.is_file():
+        raise HTTPException(status_code=404, detail="File not found")
+
+    return FileResponse(file_path, filename=filename)
+
 @router.post("/like/{filename:path}/{user_id}")
 async def post_like_file(filename: str, user_id: str):
     try:
@@ -155,7 +164,7 @@ async def upload_midi_file(
         
     # 만약 이미지 파일이 없으면 img_path을 빈 문자열로 설정
     if img is None:
-        img_path = ""
+        img_name = ""
     else:
         # 이미지 저장
         img_name = f"{title}-{date_suffix}.jpg"
@@ -169,7 +178,7 @@ async def upload_midi_file(
     
     # MongoDB에 데이터 저장
     new_midi_file = {
-        "filename": file_name,
+        "filename": img_name,
         "title": title,
         "imgurl": img_path,
         "subtitle": subtitle,

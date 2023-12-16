@@ -3,4 +3,5 @@ uvicorn
 pymongo
 python-multipart
 websockets
-pillow 
+pillow
+pretty_midi

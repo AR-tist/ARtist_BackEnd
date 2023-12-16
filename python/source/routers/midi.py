@@ -7,6 +7,7 @@ import os
 import datetime
 import hashlib
 from PIL import Image
+import pretty_midi
 
 router = APIRouter(
     prefix="/midi",
@@ -181,6 +182,10 @@ async def upload_midi_file(
     # sha-256 password
     hash_password = hashlib.sha256(password.encode()).hexdigest()
     
+    # midi 읽기
+    midi = pretty_midi.PrettyMIDI(file_path)
+    music_length = midi.get_end_time()
+    
     # MongoDB에 데이터 저장
     new_midi_file = {
         "filename": file_name,
@@ -191,7 +196,7 @@ async def upload_midi_file(
         "rank": 0,
         "like": 0,
         "views": 0,
-        "music_length": 0,
+        "music_length": music_length,
         "password": hash_password,
         "timestamp": date_suffix,
     }

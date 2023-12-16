@@ -167,16 +167,16 @@ async def upload_midi_file(
         img_path = os.path.join(upload_path, img_name)
         
         # 이미지 리사이징, 비율 유지
-        img = Image.open(img.file)
-        img = img.resize((120,120))
-        img.save(img_path)
+        img_pil = Image.open(img.file)
+        img_pil = img_pil.resize((120,120))
+        img_pil.save(img_path)
         
         img_name = f"up-{title}-{date_suffix}.jpg"
         img_path = os.path.join(upload_path, img_name)
 
-        img = Image.open(img.file)
-        img = img.resize((200,200))
-        img.save(img_path)
+        img_pil = Image.open(img.file)
+        img_pil = img_pil.resize((200,200))
+        img_pil.save(img_path)
 
     # sha-256 password
     hash_password = hashlib.sha256(password.encode()).hexdigest()

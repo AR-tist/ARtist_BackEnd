@@ -180,7 +180,7 @@ async def upload_midi_file(
     new_midi_file = {
         "filename": img_name,
         "title": title,
-        "imgurl": img_path,
+        "imgurl": img_name,
         "subtitle": subtitle,
         "poster": poster,
         "rank": 0,

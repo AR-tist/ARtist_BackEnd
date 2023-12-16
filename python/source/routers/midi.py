@@ -170,6 +170,13 @@ async def upload_midi_file(
         img = Image.open(img.file)
         img = img.resize((120,120))
         img.save(img_path)
+        
+        img_name = f"up-{title}-{date_suffix}.jpg"
+        img_path = os.path.join(upload_path, img_name)
+
+        img = Image.open(img.file)
+        img = img.resize((200,200))
+        img.save(img_path)
 
     # sha-256 password
     hash_password = hashlib.sha256(password.encode()).hexdigest()

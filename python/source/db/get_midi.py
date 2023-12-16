@@ -14,7 +14,7 @@ def get_midi( filename ):
     if document['imgurl'] == "":
         imgurl = ""
     else:
-        imgurl = f"/midi/download/{document['imgurl']}"
+        imgurl = f"/midi/download/{'up-'+document['imgurl']}"
     document['download_url'] = download_url
     document['delete_url'] = delete_url
     document['imgurl'] = imgurl

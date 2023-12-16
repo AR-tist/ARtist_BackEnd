@@ -53,15 +53,6 @@ async def download_file(filename: str):
 
     return FileResponse(file_path, filename=filename)
 
-@router.get("/download/img/{filename:path}")
-async def download_img(filename: str):
-    file_path = Path(upload_path) / filename
-    print(file_path)
-
-    if not file_path.is_file():
-        raise HTTPException(status_code=404, detail="File not found")
-
-    return FileResponse(file_path, filename=filename)
 
 @router.post("/like/{filename:path}/{user_id}")
 async def post_like_file(filename: str, user_id: str):
@@ -121,7 +112,7 @@ async def get_midi_list():
             if file["imgurl"] == "":
                 img_url = ""
             else:
-                img_url = f"/midi/download/img/{file['imgurl']}"
+                img_url = f"/midi/download/{file['imgurl']}"
             file_item = {
                 "timestamp": file["timestamp"],
                 "filename": file["filename"],

@@ -39,9 +39,9 @@ async def message_handler(event):
 
 
 @router.websocket("/")
-async def websocket_endpoint(websocket: WebSocket, filename: str = '', room_id: str = '', nickname: str = '', user_id: str = '', device: str = ''):
+async def websocket_endpoint(websocket: WebSocket, filename: str = '', room_id: str = '', nickname: str = '', user_id: str = '', device: int = '', play_mode: int = 0):
     connectionID = str(uuid.uuid4())
-    event = {'type': 'connect', 'connectionID': connectionID, 'host': room_id == '', 'filename': filename, 'room_id': room_id, 'nickname': nickname, 'user_id': user_id, 'device': device}
+    event = {'type': 'connect', 'connectionID': connectionID, 'host': room_id == '', 'filename': filename, 'room_id': room_id, 'nickname': nickname, 'user_id': user_id, 'device': device, 'play_mode': play_mode}
     
     if room_id != '' and room_id not in rooms:
         await websocket.close()

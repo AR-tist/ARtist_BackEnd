@@ -19,6 +19,7 @@ async def connect(event, connected_clients, rooms):
                         user_id=event['user_id'],
                         device=event['device'],
                         host=1,
+                        play_mode=event['play_mode'],
                         load_complete=0,
                         )
         room = Room(room_id=str(uuid.uuid4()),
@@ -43,6 +44,7 @@ async def connect(event, connected_clients, rooms):
                         user_id=event['user_id'],
                         device=event['device'],
                         host=0,
+                        play_mode=event['play_mode'],
                         load_complete=0,
                         )
         room.guests[client.connectionID] = client

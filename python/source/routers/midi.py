@@ -5,6 +5,8 @@ from pymongo import MongoClient
 from fastapi.responses import FileResponse, JSONResponse
 import os
 import datetime
+import hashlib
+
 
 router = APIRouter(
     prefix="/midi",
@@ -134,12 +136,14 @@ async def upload_midi_file(
     title: str = Form(...),
     subtitle: str = Form(...),
     poster: str = Form(...),
+    password: str = Form(...),
     file: UploadFile = File(...),
+    img: UploadFile = File(...)
 ):
     # 미디 파일이 아닌 경우 에러 응답
     if not file.filename.endswith(".mid"):
         return JSONResponse(content={"error": "Invalid file format"}, status_code=400)
-
+    
     # 파일 저장 경로 설정
     date_suffix = datetime.datetime.now().timestamp()
     file_name = f"{title}-{date_suffix}.mid"
@@ -148,18 +152,33 @@ async def upload_midi_file(
     # 파일 저장
     with open(file_path, "wb") as f:
         f.write(file.file.read())
+        
+    # 만약 이미지 파일이 없으면 img_path을 빈 문자열로 설정
+    if img is None:
+        img_path = ""
+    else:
+        # 이미지 저장
+        img_name = f"{title}-{date_suffix}.jpg"
+        img_path = os.path.join(upload_path, img_name)
+        with open(img_path, "wb") as f:
+            f.write(img.file.read())
 
+
+    # sha-256 password
+    hash_password = hashlib.sha256(password.encode()).hexdigest()
+    
     # MongoDB에 데이터 저장
     new_midi_file = {
         "filename": file_name,
         "title": title,
-        "imgurl": "",
+        "imgurl": img_path,
         "subtitle": subtitle,
         "poster": poster,
         "rank": 0,
         "like": 0,
         "views": 0,
         "music_length": 0,
+        "password": hash_password,
         "timestamp": date_suffix,
     }
     output = collection.insert_one(new_midi_file)

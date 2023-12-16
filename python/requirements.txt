@@ -3,4 +3,4 @@ uvicorn
 pymongo
 python-multipart
 websockets
-PIL
+pillow 

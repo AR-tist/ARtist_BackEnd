@@ -102,17 +102,17 @@ async def get_like_file(filename: str, user_id: str):
 async def get_midi_list():
     try:
         # MongoDB에서 데이터 가져오기
-        files = collection.find({}, projection={"_id": False, "filename": True, "timestamp": True, "title": True, "imgname": True, "subtitle": True, "rank": True, "poster": True, "like": True, "views": True, "music_length": True})
+        files = collection.find({}, projection={"_id": False, "filename": True, "timestamp": True, "title": True, "imgurl": True, "subtitle": True, "rank": True, "poster": True, "like": True, "views": True, "music_length": True})
 
         # 가져온 데이터를 JSON 형식으로 변환
         file_list = []
         for file in files:
             download_url = f"/midi/download/{file['filename']}"
             delete_url = f"/midi/delete/{file['filename']}"
-            if file["imgname"] == "":
+            if file["imgurl"] == "":
                 img_url = ""
             else:
-                img_url = f"/midi/download/{file['imgname']}"
+                img_url = f"/midi/download/{file['imgurl']}"
             file_item = {
                 "timestamp": file["timestamp"],
                 "filename": file["filename"],
@@ -178,7 +178,7 @@ async def upload_midi_file(
     new_midi_file = {
         "filename": file_name,
         "title": title,
-        "imgname": img_name,
+        "imgurl": img_name,
         "subtitle": subtitle,
         "poster": poster,
         "rank": 0,

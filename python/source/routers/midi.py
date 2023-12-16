@@ -173,7 +173,7 @@ async def upload_midi_file(
         img_pil = img_pil.resize((120,120))
         img_pil.save(img_path)
         
-        up_img_name = f"up-{title}-{date_suffix}.jpg"
+        up_img_name = f"up-{title}-{date_suffix}.{extension}"
         up_img_path = os.path.join(upload_path, up_img_name)
 
         img_pil = Image.open(img.file)
